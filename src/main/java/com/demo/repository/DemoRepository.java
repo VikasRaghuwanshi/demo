@@ -1,6 +1,7 @@
 package com.demo.repository;
 
 import com.demo.entity.DataEntity;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,6 +22,9 @@ public class DemoRepository {
     public long getCount(String collection) {
         Query query = new Query();
         return mongoTemplate.count(query,collection);
+    }
+    public void addToGivenCollection(JSONObject jsonObject, String collection){
+        mongoTemplate.insert(jsonObject,collection);
     }
 
 }

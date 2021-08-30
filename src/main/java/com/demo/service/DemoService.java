@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -59,4 +60,24 @@ public class DemoService {
     public long  get(String collection){
         return demoRepository.getCount(collection);
     }
+
+    public void addToGivenCollection(String collection){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\"name\": \"Upendra\", \"job\": \"Programmer\"}");
+        Request request = new Request.Builder()
+                .url("https://reqres.in/api/users")
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        try(Response response = client.newCall(request).execute()){
+            JSONObject dataReceived = new JSONObject(response.body().string());
+            System.out.println(dataReceived);
+            demoRepository.addToGivenCollection(dataReceived,collection);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

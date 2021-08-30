@@ -19,6 +19,14 @@ public class DemoController {
         demoService.makeRequest(dataEntity);
         return "json reached."+ dataEntity.toString();
     }
+    @PostMapping("/add/{collection}")
+    @CrossOrigin(origins = "*")
+    public String createRandomData(@PathVariable String collection ){
+        System.out.println(collection);
+        demoService.addToGivenCollection(collection);
+        return "json reached."+ collection;
+    }
+
     @GetMapping("/get/{collection}")
     @CrossOrigin(origins = "*")
     public long getCount(@PathVariable String collection){
